@@ -4,7 +4,7 @@ This repository demonstrates a complete CI/CD pipeline using GitHub Actions for 
 
 ## Architecture Overview
 
-![Architecture Diagram](https://via.placeholder.com/800x400?text=CI/CD+Pipeline+Architecture)
+Need to be added...
 
 ### Components
 
