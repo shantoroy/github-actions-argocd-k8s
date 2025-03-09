@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Demo App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>CI/CD Pipeline Demo</h1>
+        <p>A GitOps-based microservices application deployed with GitHub Actions and ArgoCD</p>
+    </header>
+
+    <main>
+        <section class="task-section">
+            <h2>Task Manager</h2>
+            
+            {% if error %}
+            <div class="error-message">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+            
+            <form class="add-task-form" action="/add-task" method="POST">
+                <input type="text" name="title" placeholder="Add a new task" required>
+                <button type="submit">Add Task</button>
+            </form>
+            
+            <ul class="task-list">
+                {% for task in tasks %}
+                <li class="task-item {% if task.completed %}completed{% endif %}">
+                    <span class="task-title">{{ task.title }}</span>
+                    <form action="/toggle-task/{{ task.id }}" method="POST">
+                        <button type="submit" class="toggle-btn">
+                            {% if task.completed %}Mark Incomplete{% else %}Mark Complete{% endif %}
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="no-tasks">No tasks available</li>
+                {% endfor %}
+            </ul>
+        </section>
+        
+        <section class="info-section">
+            <h2>Application Information</h2>
+            <div class="info-container">
+                <div class="info-card">
+                    <h3>Frontend Info</h3>
+                    <p>Environment: <span id="frontend-env">{{ request.environ.get('ENVIRONMENT', 'development') }}</span></p>
+                </div>
+                <div class="info-card">
+                    <h3>Backend Info</h3>
+                    {% if backend_info %}
+                    <p>Environment: <span id="backend-env">{{ backend_info.get('ENVIRONMENT', 'unknown') }}</span></p>
+                    <p>Version: <span id="backend-version">{{ backend_info.get('VERSION', 'unknown') }}</span></p>
+                    {% else %}
+                    <p>Backend information unavailable</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2025 CI/CD Pipeline Demo | GitHub Actions + ArgoCD + Minikube</p>
+    </footer>
+</body>
+</html>

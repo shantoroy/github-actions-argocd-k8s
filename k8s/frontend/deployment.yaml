@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: microservices-demo
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: ghcr.io/GITHUB_USERNAME/cicd-microservices-demo/frontend:main-latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: APP_NAME
+          value: "Frontend App"
+        - name: VERSION
+          value: "1.0.0"
+        - name: ENVIRONMENT
+          value: "production"
+        - name: DEBUG
+          value: "false"
+        - name: BACKEND_URL
+          value: "http://backend-service:5000"
+        - name: KUBERNETES_NODE
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 20
