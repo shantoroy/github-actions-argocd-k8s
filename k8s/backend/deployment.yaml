@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ghcr.io/GITHUB_USERNAME/cicd-microservices-demo/backend:main-latest
+        image: ghcr.io/shantoroy/github-actions-argocd-k8s/backend:main-latest
         ports:
         - containerPort: 5000
         env:

@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/GITHUB_USERNAME/cicd-microservices-demo.git
+    repoURL: https://github.com/shantoroy/github-actions-argocd-k8s.git
     targetRevision: main
     path: k8s/backend
   destination:

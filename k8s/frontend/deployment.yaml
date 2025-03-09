@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ghcr.io/GITHUB_USERNAME/cicd-microservices-demo/frontend:main-latest
+        image: ghcr.io/shantoroy/github-actions-argocd-k8s/frontend:main-latest
         ports:
         - containerPort: 3000
         env:
